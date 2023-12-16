@@ -1,0 +1,1 @@
+clang.exe -o .\Tetris.exe .\main.c .\CheckCollision.c .\Tetris.c -l raylibdll 
