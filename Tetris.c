@@ -255,6 +255,7 @@ const Color colorTypes[8] =
 const int scorePoint = 100;
 int totalScore;
 int rowCounter = 0;
+int stage_limit = 0;
 
 
 void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino)
@@ -268,6 +269,7 @@ void drawTetromino(const Color currentColor, const int startOffsetX, const int s
             if(tetromino[offset] == 1)
             {
                 DrawRectangle((x + tetrominoStartX) * TILE_SIZE + startOffsetX, (y + tetrominoStartY) * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, currentColor);
+                stage_limit += offset;
             }
         }
     }
@@ -318,5 +320,13 @@ void DeleteLines()
             ResetLines(y);
         }
     }   
+}
+
+void CheckGameOver()
+{
+    if(stage_limit >= STAGE_HEIGHT)
+    {
+        CloseWindow();
+    }
 }
 

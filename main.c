@@ -3,16 +3,13 @@
 #include <stdio.h>
 #include "raylib.h"
 #include "Tetris.h"
+#include "CheckCollision.h"
 
 extern int stage[];
 extern Color colorTypes[]; 
 extern int *tetrominoTypes[7][4];
 extern int totalScore;
 extern int rowCounter;
-void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino);
-int CheckCollision(const int tetrominoStartX, const int tetrominoStartY, const int *tetromino);
-void DeleteLines();
-void ResetLines(int startLineY);
 
 Music background_music;
 Sound tetromino_sound;
@@ -162,7 +159,7 @@ int main(int argc, char** argv, char** environ)
         GetFontDefault();
         DrawText(TextFormat("Score: %010i",totalScore),175, 20,20,RED);
         DrawText(TextFormat("Rows: %010i",rowCounter),400,20,20,RED);
-        ClearBackground(DARKBLUE);
+        ClearBackground(BLACK);
 
         for(int y = 0; y < STAGE_HEIGHT; y++)
         {
@@ -173,14 +170,15 @@ int main(int argc, char** argv, char** environ)
 
                 if(stage[offset] != 0)
                 {
-                    DrawRectangle(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, BLACK);
+                    DrawRectangle(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, DARKGRAY);
                 }
 
-                DrawRectangleLines(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, BLACK);
+                DrawRectangleLines(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, DARKGRAY);
             }
         }
         
         drawTetromino(colorTypes[currentColor],(startOffsetX /2), startOffsetY, currentTetrominoX, currentTetrominoY, tetrominoTypes[currentTetrominoType][currentRotation]);
+        CheckGameOver();
         EndDrawing();
         
     }
