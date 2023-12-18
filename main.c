@@ -19,7 +19,7 @@ Sound rotation_sound;
 
 int main(int argc, char** argv, char** environ)
 {
-    const int windowWidth = 800; 
+    const int windowWidth = 500; 
     const int windowHeight = 700; 
 
     const int startOffsetX = (windowWidth / 2) - ((STAGE_WIDTH * TILE_SIZE) / 2);
@@ -139,13 +139,13 @@ int main(int argc, char** argv, char** environ)
                         if(tetromino[offset] == 1)
                         {
                             const int offset_stage = (y + currentTetrominoY) * STAGE_WIDTH + (x + currentTetrominoX);
-
                             stage[offset_stage] = currentColor+1;
+
                         }
                     }
                 }
 
-                DeleteLines();
+                DeleteLines(currentColor);
                 currentTetrominoX = tetrominoStartX;
                 currentTetrominoY = tetrominoStartY;
 
@@ -157,8 +157,8 @@ int main(int argc, char** argv, char** environ)
         
         BeginDrawing();
         GetFontDefault();
-        DrawText(TextFormat("Score: %010i",totalScore),175, 20,20,RED);
-        DrawText(TextFormat("Rows: %010i",rowCounter),400,20,20,RED);
+        DrawText(TextFormat("Score: %010i",totalScore),50, 20,20,RED);
+        DrawText(TextFormat("Rows: %010i",rowCounter),250,20,20,RED);
         ClearBackground(BLACK);
 
         for(int y = 0; y < STAGE_HEIGHT; y++)
@@ -178,7 +178,6 @@ int main(int argc, char** argv, char** environ)
         }
         
         drawTetromino(colorTypes[currentColor],(startOffsetX /2), startOffsetY, currentTetrominoX, currentTetrominoY, tetrominoTypes[currentTetrominoType][currentRotation]);
-        CheckGameOver();
         EndDrawing();
         
     }

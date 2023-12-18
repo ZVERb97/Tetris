@@ -6,6 +6,5 @@
 #define TETROMINO_SIZE 4
 
 void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino);
-void DeleteLines();
+void DeleteLines(int currentColor);
 void ResetLines(int startLineY);
-void CheckGameOver();

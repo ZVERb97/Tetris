@@ -2,6 +2,12 @@
 #include "Tetris.h"
 #include <time.h>
 #include <string.h>
+#include <stdio.h>
+const int scorePoint = 100;
+int totalScore;
+int rowCounter = 0;
+const int delete_time = 5;
+int delete_time_temp = 0;
 
 int stage[] = 
 {
@@ -252,11 +258,6 @@ const Color colorTypes[8] =
     {85,45,63,255},
 };
 
-const int scorePoint = 100;
-int totalScore;
-int rowCounter = 0;
-int stage_limit = 0;
-
 
 void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino)
 {
@@ -269,7 +270,7 @@ void drawTetromino(const Color currentColor, const int startOffsetX, const int s
             if(tetromino[offset] == 1)
             {
                 DrawRectangle((x + tetrominoStartX) * TILE_SIZE + startOffsetX, (y + tetrominoStartY) * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, currentColor);
-                stage_limit += offset;
+                
             }
         }
     }
@@ -277,6 +278,7 @@ void drawTetromino(const Color currentColor, const int startOffsetX, const int s
 
 void ResetLines(int startLineY)
 {
+
     for (int y = startLineY; y >= 0; y--)
     {
         for (int x = 1; x < STAGE_WIDTH - 1; x++)
@@ -295,8 +297,10 @@ void ResetLines(int startLineY)
     totalScore += scorePoint;
 }
 
-void DeleteLines()
+void DeleteLines(int currentColor)
 {
+    delete_time_temp = delete_time;
+
     for (int y = 0; y < STAGE_HEIGHT - 1; y++)
     {
         int checkLine = 1;
@@ -315,18 +319,21 @@ void DeleteLines()
         if(checkLine)
         {
             const int offset = y * STAGE_WIDTH + 1;
+            do
+            {   
+                BeginDrawing();
+                DrawRectangle((STAGE_WIDTH / offset + (TILE_SIZE * 2)) + 4,(offset * 2) + (TILE_SIZE * 4),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,WHITE);
+                printf("%d\n",delete_time_temp);
+                delete_time_temp -= GetFrameTime();
+                EndDrawing();
+                
+               
+            }while(delete_time_temp > 0);
+            
             memset(stage+offset,0,(STAGE_WIDTH-2)* sizeof(int));
             rowCounter++;
+            delete_time_temp = delete_time;
             ResetLines(y);
         }
     }   
 }
-
-void CheckGameOver()
-{
-    if(stage_limit >= STAGE_HEIGHT)
-    {
-        CloseWindow();
-    }
-}
-
