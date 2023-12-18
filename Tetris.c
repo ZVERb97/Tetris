@@ -6,33 +6,33 @@
 const int scorePoint = 100;
 int totalScore;
 int rowCounter = 0;
-const int delete_time = 5;
+const int delete_time = 10;
 int delete_time_temp = 0;
 
 int stage[] = 
 {
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
 };
 
 const int lTetromino0[] =
@@ -117,26 +117,26 @@ const int sTetromino0[] =
 
 const int sTetromino90[] =
 {
-    0, 0, 0, 0,
+    1, 0, 0, 0,
+    1, 1, 0, 0,
     0, 1, 0, 0,
-    0, 1, 1, 0,
-    0, 0, 1, 0,
+    0, 0, 0, 0,
 };
 
 const int sTetromino180[] =
 {
-    0, 0, 0, 0,
-    0, 0, 0, 0,
     0, 1, 1, 0,
     1, 1, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
 };
 
 const int sTetromino270[] =
 {
-    0, 0, 0, 0,
-    1, 0, 0, 0,
-    1, 1, 0, 0,
     0, 1, 0, 0,
+    0, 1, 1, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 0,
 };
 
 const int tTetromino0[] =
@@ -214,23 +214,23 @@ const int zTetromino0[] =
 const int zTetromino90[] =
 {
     0, 1, 0, 0,
-    0, 1, 1, 0,
-    0, 0, 1, 0,
+    1, 1, 0, 0,
+    1, 0, 0, 0,
     0, 0, 0, 0,
 };
 
 const int zTetromino180[] =
 {
-    0, 0, 0, 0,
-    0, 1, 1, 0,
     1, 1, 0, 0,
+    0, 1, 1, 0,
+    0, 0, 0, 0,
     0, 0, 0, 0,
 };
 
 const int zTetromino270[] =
 {
-    1, 0, 0, 0,
-    1, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 1, 1, 0,
     0, 1, 0, 0,
     0, 0, 0, 0,
 };
@@ -246,7 +246,7 @@ const int *tetrominoTypes[7][4] =
     {lTetromino0, lTetromino90, lTetromino180, lTetromino270},
 };
 
-const Color colorTypes[8] =
+const Color colorTypes[9] =
 {
     {255,255,85,255},
     {85,43,158,255},
@@ -255,8 +255,15 @@ const Color colorTypes[8] =
     {255,42,85,255},
     {255,100,85,255},
     {97,5,85,255},
+    {128,128,128,255},
     {85,45,63,255},
+    
 };
+
+Sound tetromino_sound;
+Sound collision_sound;
+Sound rotation_sound;
+Sound explosion_sound;
 
 
 void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino)
@@ -297,7 +304,7 @@ void ResetLines(int startLineY)
     totalScore += scorePoint;
 }
 
-void DeleteLines(int currentColor)
+void DeleteLines()
 {
     delete_time_temp = delete_time;
 
@@ -322,14 +329,16 @@ void DeleteLines(int currentColor)
             do
             {   
                 BeginDrawing();
-                DrawRectangle((STAGE_WIDTH / offset + (TILE_SIZE * 2)) + 4,(offset * 2) + (TILE_SIZE * 4),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,WHITE);
-                printf("%d\n",delete_time_temp);
+                int offsetX = STAGE_OFFSETX / 2;
+                DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,WHITE);
+                printf("%d",STAGE_OFFSETX);
                 delete_time_temp -= GetFrameTime();
                 EndDrawing();
                 
                
             }while(delete_time_temp > 0);
-            
+
+            PlaySound(explosion_sound);
             memset(stage+offset,0,(STAGE_WIDTH-2)* sizeof(int));
             rowCounter++;
             delete_time_temp = delete_time;

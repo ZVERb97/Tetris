@@ -12,10 +12,10 @@ extern int totalScore;
 extern int rowCounter;
 
 Music background_music;
-Sound tetromino_sound;
-Sound collision_sound;
-Sound rotation_sound;
-
+extern Sound tetromino_sound;
+extern Sound collision_sound;
+extern Sound rotation_sound;
+extern Sound explosion_sound;
 
 int main(int argc, char** argv, char** environ)
 {
@@ -43,7 +43,7 @@ int main(int argc, char** argv, char** environ)
 
     const float moveTetrominoDownTimer = 1.f;
     float timeToMoveTetrominoDown = moveTetrominoDownTimer;
-    int currentColor = GetRandomValue(0, 7);
+    int currentColor = GetRandomValue(0, 6);
 
     TraceLog(LOG_INFO, "Number of arguments : %d", argc);
     for(int i = 0; i < argc; i++)
@@ -59,6 +59,7 @@ int main(int argc, char** argv, char** environ)
     InitWindow(windowWidth, windowHeight, "Title");
 
     InitAudioDevice();
+    SetMasterVolume(0.5f);
     
     background_music = LoadMusicStream("SFX/Background-Music.ogg");
     PlayMusicStream(background_music);
@@ -66,6 +67,7 @@ int main(int argc, char** argv, char** environ)
     tetromino_sound = LoadSound("SFX/move.ogg");
     collision_sound = LoadSound("SFX/collision.ogg");
     rotation_sound = LoadSound("SFX/rotate.wav");
+    explosion_sound = LoadSound("SFX/explosion.ogg");
   
 
     SetTargetFPS(60);
@@ -145,7 +147,8 @@ int main(int argc, char** argv, char** environ)
                     }
                 }
 
-                DeleteLines(currentColor);
+                DeleteLines();
+                
                 currentTetrominoX = tetrominoStartX;
                 currentTetrominoY = tetrominoStartY;
 
@@ -170,14 +173,22 @@ int main(int argc, char** argv, char** environ)
 
                 if(stage[offset] != 0)
                 {
-                    DrawRectangle(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, DARKGRAY);
+                    DrawRectangle(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, colorTypes[color - 1]);
                 }
 
                 DrawRectangleLines(x * TILE_SIZE + (startOffsetX /2), y * TILE_SIZE + startOffsetY, TILE_SIZE, TILE_SIZE, DARKGRAY);
             }
         }
         
-        drawTetromino(colorTypes[currentColor],(startOffsetX /2), startOffsetY, currentTetrominoX, currentTetrominoY, tetrominoTypes[currentTetrominoType][currentRotation]);
+        if(CheckCollision(currentTetrominoX,0,tetrominoTypes[currentTetrominoType][currentRotation]))
+        {
+            printf("GAME OVER");
+        }
+        else
+        {
+            drawTetromino(colorTypes[currentColor],(startOffsetX /2), startOffsetY, currentTetrominoX, currentTetrominoY, tetrominoTypes[currentTetrominoType][currentRotation]);
+        }
+        
         EndDrawing();
         
     }
