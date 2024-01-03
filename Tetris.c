@@ -328,12 +328,14 @@ void DeleteLines()
             const int offset = y * STAGE_WIDTH + 1;
             do
             {   
-                BeginDrawing();
                 int offsetX = STAGE_OFFSETX / 2;
+                BeginDrawing();
                 DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,WHITE);
-                printf("%d",STAGE_OFFSETX);
-                delete_time_temp -= GetFrameTime();
                 EndDrawing();
+                BeginDrawing();
+                DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,RED);
+                EndDrawing();
+                delete_time_temp -= GetFrameTime();
                 
                
             }while(delete_time_temp > 0);
