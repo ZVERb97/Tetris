@@ -11,16 +11,19 @@ extern int *tetrominoTypes[7][4];
 extern int totalScore;
 extern int rowCounter;
 
-Music background_music;
-extern Sound tetromino_sound;
+Music actual_music;
+extern Music background_music;
+extern Music game_over_music;
+extern Sound tetromino_moving_sound;
+extern Sound tetromino_stomp_sound;
 extern Sound collision_sound;
 extern Sound rotation_sound;
 extern Sound explosion_sound;
 
 int main(int argc, char** argv, char** environ)
 {
-    const int windowWidth = 500; 
-    const int windowHeight = 700; 
+    const int windowWidth = WINDOW_WIDTH; 
+    const int windowHeight = WINDOW_HEIGHT; 
 
     const int startOffsetX = (windowWidth / 2) - ((STAGE_WIDTH * TILE_SIZE) / 2);
     const int startOffsetY = (windowHeight / 2) - ((STAGE_HEIGHT * TILE_SIZE) / 2);
@@ -56,15 +59,18 @@ int main(int argc, char** argv, char** environ)
         environ++;
     }
 
-    InitWindow(windowWidth, windowHeight, "Title");
+    InitWindow(windowWidth, windowHeight, "AIV - Tetris");
 
     InitAudioDevice();
     SetMasterVolume(0.5f);
     
     background_music = LoadMusicStream("SFX/Background-Music.ogg");
-    PlayMusicStream(background_music);
+    game_over_music = LoadMusicStream("SFX/game_over.ogg");
+    actual_music = background_music;
+    PlayMusicStream(actual_music);
 
-    tetromino_sound = LoadSound("SFX/move.ogg");
+    tetromino_moving_sound = LoadSound("SFX/move.ogg");
+    tetromino_stomp_sound = LoadSound("SFX/Tetromino_stomp.ogg");
     collision_sound = LoadSound("SFX/collision.ogg");
     rotation_sound = LoadSound("SFX/rotate.wav");
     explosion_sound = LoadSound("SFX/explosion.ogg");
@@ -74,7 +80,7 @@ int main(int argc, char** argv, char** environ)
 
     while(!WindowShouldClose())
     {
-        UpdateMusicStream(background_music);
+        UpdateMusicStream(actual_music);
         timeToMoveTetrominoDown -= GetFrameTime();
 
         if (IsKeyPressed(KEY_SPACE))
@@ -101,7 +107,7 @@ int main(int argc, char** argv, char** environ)
             if (!CheckCollision(currentTetrominoX+1,currentTetrominoY,tetrominoTypes[currentTetrominoType][currentRotation]))
             {
                 currentTetrominoX++;
-                PlaySound(tetromino_sound);
+                PlaySound(tetromino_moving_sound);
             }
             else
             {
@@ -114,7 +120,7 @@ int main(int argc, char** argv, char** environ)
             if (!CheckCollision(currentTetrominoX-1,currentTetrominoY,tetrominoTypes[currentTetrominoType][currentRotation]))
             {
                 currentTetrominoX--;
-                PlaySound(tetromino_sound);
+                PlaySound(tetromino_moving_sound);
             }
             else
             {
@@ -142,6 +148,7 @@ int main(int argc, char** argv, char** environ)
                         {
                             const int offset_stage = (y + currentTetrominoY) * STAGE_WIDTH + (x + currentTetrominoX);
                             stage[offset_stage] = currentColor+1;
+                            PlaySound(tetromino_stomp_sound);
 
                         }
                     }
@@ -182,7 +189,8 @@ int main(int argc, char** argv, char** environ)
         
         if(CheckCollision(currentTetrominoX,0,tetrominoTypes[currentTetrominoType][currentRotation]))
         {
-            printf("GAME OVER");
+           StopMusicStream(actual_music); 
+           GameOver();
         }
         else
         {
@@ -194,8 +202,13 @@ int main(int argc, char** argv, char** environ)
     }
 
     UnloadMusicStream(background_music);
-    UnloadSound(tetromino_sound);
+    UnloadSound(tetromino_moving_sound);
+    UnloadSound(tetromino_stomp_sound);
+    UnloadSound(rotation_sound);
+    UnloadSound(collision_sound);
+    UnloadSound(explosion_sound);
     CloseAudioDevice();
+    CloseWindow();
 
     return 0;
 }

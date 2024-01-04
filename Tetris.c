@@ -260,10 +260,13 @@ const Color colorTypes[9] =
     
 };
 
-Sound tetromino_sound;
+Music background_music;
+Music game_over_music;
+Sound tetromino_moving_sound;
 Sound collision_sound;
 Sound rotation_sound;
 Sound explosion_sound;
+Sound tetromino_stomp_sound;
 
 
 void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino)
@@ -347,4 +350,17 @@ void DeleteLines()
             ResetLines(y);
         }
     }   
+}
+
+void GameOver()
+{
+    DrawRectangle(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,RED);
+    DrawText("GAME OVER\n",150,WINDOW_HEIGHT/2,50,BLACK);
+    DrawText("Press ESC to exit the Game",100,WINDOW_HEIGHT/2 + 50,30,BLACK);
+
+    StopSound(tetromino_moving_sound);
+    StopSound(tetromino_stomp_sound);
+    StopSound(rotation_sound);
+    StopSound(collision_sound);
+
 }
