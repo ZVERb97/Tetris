@@ -329,14 +329,21 @@ void DeleteLines()
         if(checkLine)
         {
             const int offset = y * STAGE_WIDTH + 1;
+            int red_white_line = 1;
             do
             {   
                 int offsetX = STAGE_OFFSETX / 2;
                 BeginDrawing();
-                DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,WHITE);
-                EndDrawing();
-                BeginDrawing();
-                DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,RED);
+                if(red_white_line)
+                {
+                    DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,WHITE);
+                    red_white_line = 0;
+                }else
+                {
+                    DrawRectangle(offsetX,STAGE_OFFSETY + (y * TILE_SIZE),(STAGE_WIDTH * TILE_SIZE),TILE_SIZE,RED);
+                    red_white_line = 1;
+                }
+                
                 EndDrawing();
                 delete_time_temp -= GetFrameTime();
                 
