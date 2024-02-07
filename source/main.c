@@ -137,7 +137,7 @@ int main(int argc, char **argv, char **environ)
 
                 currentTetrominoY++;
 
-                if(rowCounter < 20)
+                if(rowCounter < 25)
                 {
                     timeToMoveTetrominoDown = moveTetrominoDownTimer;
 
@@ -157,7 +157,6 @@ int main(int argc, char **argv, char **environ)
                     timeToMoveTetrominoDown = 0.2f;
                 }
 
-                printf("%f\n",timeToMoveTetrominoDown);
             }
             else
             {
