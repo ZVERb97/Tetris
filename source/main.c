@@ -13,6 +13,7 @@ extern int rowCounter;
 
 extern Music background_music;
 extern Music game_over_music;
+extern Music *current_music;
 extern Sound tetromino_moving_sound;
 extern Sound tetromino_stomp_sound;
 extern Sound collision_sound;
@@ -65,6 +66,7 @@ int main(int argc, char **argv, char **environ)
 
     background_music = LoadMusicStream("SFX/Background-Music.ogg");
     game_over_music = LoadMusicStream("SFX/game_over.ogg");
+    current_music = &background_music;
 
     tetromino_moving_sound = LoadSound("SFX/move.ogg");
     tetromino_stomp_sound = LoadSound("SFX/Tetromino_stomp.ogg");
@@ -77,9 +79,8 @@ int main(int argc, char **argv, char **environ)
     while (!WindowShouldClose())
     {
 
-        StopMusicStream(game_over_music);
-        PlayMusicStream(background_music);
-        UpdateMusicStream(background_music);
+        PlayMusicStream(*current_music);
+        UpdateMusicStream(*current_music);
         timeToMoveTetrominoDown -= GetFrameTime();
 
         if (IsKeyPressed(KEY_SPACE))
@@ -137,26 +138,26 @@ int main(int argc, char **argv, char **environ)
 
                 currentTetrominoY++;
 
-                if(rowCounter < 25)
+                if (rowCounter < 25)
                 {
                     timeToMoveTetrominoDown = moveTetrominoDownTimer;
-
-                }else if(rowCounter >= 25 && rowCounter < 50)
+                }
+                else if (rowCounter >= 25 && rowCounter < 50)
                 {
                     timeToMoveTetrominoDown = 0.8f;
-
-                }else if(rowCounter >= 50 && rowCounter < 75)
+                }
+                else if (rowCounter >= 50 && rowCounter < 75)
                 {
                     timeToMoveTetrominoDown = 0.6f;
-
-                }else if(rowCounter >= 75 && rowCounter < 100)
+                }
+                else if (rowCounter >= 75 && rowCounter < 100)
                 {
                     timeToMoveTetrominoDown = 0.4f;
-                }else if(rowCounter >= 100)
+                }
+                else if (rowCounter >= 100)
                 {
                     timeToMoveTetrominoDown = 0.2f;
                 }
-
             }
             else
             {
@@ -181,8 +182,6 @@ int main(int argc, char **argv, char **environ)
                 {
                     DeleteLines();
                 }
-
-                
 
                 currentTetrominoX = tetrominoStartX;
                 currentTetrominoY = tetrominoStartY;
@@ -218,10 +217,7 @@ int main(int argc, char **argv, char **environ)
         if (CheckCollision(currentTetrominoX, 0, tetrominoTypes[currentTetrominoType][currentRotation]))
         {
 
-            StopMusicStream(background_music);
             GameOver();
-            PlayMusicStream(game_over_music);
-            UpdateMusicStream(game_over_music);
         }
         else
         {
@@ -231,7 +227,7 @@ int main(int argc, char **argv, char **environ)
         EndDrawing();
     }
 
-    UnloadMusicStream(background_music);
+    UnloadMusicStream(*current_music);
     UnloadSound(tetromino_moving_sound);
     UnloadSound(tetromino_stomp_sound);
     UnloadSound(rotation_sound);

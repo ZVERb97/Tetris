@@ -264,7 +264,8 @@ const Color colorTypes[9] =
 };
 
 Music background_music;
-Sound game_over_music;
+Music game_over_music;
+Music *current_music;
 Sound tetromino_moving_sound;
 Sound collision_sound;
 Sound rotation_sound;
@@ -364,12 +365,13 @@ void DeleteLines()
 
 void GameOver()
 {
-    
+    current_music = &game_over_music;
+
     DrawRectangle(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,RED);
-    DrawText("GAME OVER\n",150,WINDOW_HEIGHT/2,50,BLACK);
-    DrawText("Press ESC to exit the Game",100,WINDOW_HEIGHT/2 + 50,30,BLACK);
-    DrawText(TextFormat("Score: %010i",totalScore),150, WINDOW_HEIGHT/2 + 100,30,BLACK);
-    DrawText(TextFormat("Rows: %010i",rowCounter),170,WINDOW_HEIGHT/2 + 150,30,BLACK);
+    DrawText("GAME OVER\n",100 ,(WINDOW_HEIGHT/2) - 50,50,BLACK);
+    DrawText("Press ESC to exit the Game",50,WINDOW_HEIGHT/2,30,BLACK);
+    DrawText(TextFormat("Score: %010i",totalScore),120, (WINDOW_HEIGHT/2) + 50,30,BLACK);
+    DrawText(TextFormat("Rows: %010i",rowCounter),120,(WINDOW_HEIGHT/2) + 100,30,BLACK);
     StopSound(tetromino_moving_sound);
     StopSound(tetromino_stomp_sound);
     StopSound(rotation_sound);
