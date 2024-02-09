@@ -4,14 +4,6 @@
 #include <string.h>
 #include <stdio.h>
 
-const int scorePoint = 100;
-int totalScore;
-int rowCounter = 0;
-const int delete_time = 10;
-int delete_time_temp = 0;
-
-
-
 int stage[] = 
 {
     8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
@@ -272,6 +264,59 @@ Sound rotation_sound;
 Sound explosion_sound;
 Sound tetromino_stomp_sound;
 
+const int tetrominoStartX = STAGE_WIDTH / 2;
+const int tetrominoStartY = 0;
+int currentTetrominoX;
+int currentTetrominoY;
+int currentTetrominoType;
+int currentRotation;
+int currentColor;
+const float moveTetrominoDownTimer = 1.f;
+float timeToMoveTetrominoDown;
+
+const int scorePoint = 100;
+int totalScore;
+int rowCounter = 0;
+const int delete_time = 10;
+int delete_time_temp = 0;
+
+
+void InitializeGame()
+{
+
+    currentTetrominoX = tetrominoStartX;
+    currentTetrominoY = tetrominoStartY;
+
+    time_t unixTime;
+
+    time(&unixTime);
+
+    SetRandomSeed(unixTime);
+
+    currentTetrominoType = GetRandomValue(0, 6);
+    currentRotation = 0;
+
+    timeToMoveTetrominoDown = moveTetrominoDownTimer;
+    int currentColor = GetRandomValue(0, 6);
+    int game_over = 0;
+
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "AIV - Tetris");
+
+    InitAudioDevice();
+    SetMasterVolume(0.5f);
+
+    background_music = LoadMusicStream("SFX/Background-Music.ogg");
+    game_over_music = LoadMusicStream("SFX/game_over.ogg");
+    current_music = &background_music;
+
+    tetromino_moving_sound = LoadSound("SFX/move.ogg");
+    tetromino_stomp_sound = LoadSound("SFX/Tetromino_stomp.ogg");
+    collision_sound = LoadSound("SFX/collision.ogg");
+    rotation_sound = LoadSound("SFX/rotate.wav");
+    explosion_sound = LoadSound("SFX/explosion.ogg");
+
+    SetTargetFPS(60);
+}
 
 void drawTetromino(const Color currentColor, const int startOffsetX, const int startOffsetY, const int tetrominoStartX, const int tetrominoStartY, const int *tetromino)
 {
